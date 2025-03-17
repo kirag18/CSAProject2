@@ -19,12 +19,17 @@ public class Logic {
         colors.add("green");
         colors.add("blue");
         colors.add("pink");
-        for (int)
-        int first = (int)(Math.random()*6);
-        answer[0] = new Shapes(colors.remove(first));
+        for (int i = 0; i<4;i++){
+            int idx = (int)(Math.random()*(6-i));
+            answer[i] = new Shapes(colors.remove(idx));
+        }
+        play();
 
+    }
 
-
+    private void play(){
+        System.out.println("Enter 4 UNIQUE colors ");
+        String[] order = scan.nextLine().split(",");
 
     }
 }
