@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class Logic {
+public class MastermindLogic {
     private Shapes [][] grid;
     private Shapes [] answer;
     private Scanner scan;
     private Player person;
     private int tries;
 
-    public Logic(){
+    public MastermindLogic(){
         grid = new Shapes[8][4];
         tries = 8;
         scan = new Scanner(System.in);
