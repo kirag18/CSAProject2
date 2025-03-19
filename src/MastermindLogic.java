@@ -31,28 +31,29 @@ public class MastermindLogic {
 
     }
 
-    public void playGame(){
+    public void play(){
+        printGrid();
+        while (tries >0 && !win){
 
-        while (tries >0 || win){
-            printGrid();
             int whites = 0;
             int reds = 0;
             System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
             String[] order = scan.nextLine().split(",");
             for (int i = 0; i<order.length;i++){
                 for (int j = 0;j<answer.length;j++){
-                    if (order[i].equals(answer[i].getColor())){
+                    if (order[i].equals(answer[j].getColor())){
                         if (i==j){
-
                             reds++;
                         }else{
-                            System.out.println("White: "+order[i]+" "+answer[i].getColor());
                             whites++;
                         }
                     }
                 }
             }
             tries--;
+            if (reds == 4){
+                win = true;
+            }
             for (int i = 0;i<grid[0].length;i++){
                 if (i<4){
                     grid[tries][i] = new Shapes(order[i]);
@@ -68,9 +69,8 @@ public class MastermindLogic {
                     }
                 }
             }
-            if (reds == 4){
-                win = true;
-            }
+            printGrid();
+
 
         }
 
