@@ -1,10 +1,12 @@
 public class Player {
     private int points;
     private int gamesPlayed;
+    private String name;
 
-    public Player(){
+    public Player(String name){
         points = 0;
         gamesPlayed = 0;
+        this.name = name;
     }
 
     public void setPoints(int points) {
@@ -19,4 +21,7 @@ public class Player {
         return gamesPlayed;
     }
 
+    public String getName() {
+        return name;
+    }
 }

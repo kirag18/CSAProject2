@@ -6,5 +6,7 @@ public class Shapes {
         this.color = color;
     }
 
-
+    public String getColor() {
+        return color;
+    }
 }
