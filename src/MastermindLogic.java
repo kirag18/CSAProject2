@@ -8,8 +8,12 @@ public class MastermindLogic {
     private Player person;
     private int tries;
     private boolean win;
+    private int inputIdx;
+    private String[] order;
 
     public MastermindLogic(String name){
+        inputIdx = 0;
+        order = new String[4];
         grid = new Shapes[8][8];
         answer = new Shapes[4];
         win = false;
@@ -30,63 +34,72 @@ public class MastermindLogic {
         }
 
     }
+    public void addInput(String color){
+        order[inputIdx] = color;
+        grid[tries][inputIdx] = new Shapes(order[inputIdx]);
+    }
+    public void clearInput(){
+        order = new String[4];
+        inputIdx = 0;
+    }
 
     public void play(){
         printGrid();
         while (tries >0 && !win){
-            Shapes[] tempAns = answer.clone();
-
-            int whites = 0;
-            int reds = 0;
+            inputIdx = 0;
             System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
-            String[] order = scan.nextLine().split(",");
-            for (int i = 0; i<order.length;i++){
-                for (int j = 0;j<tempAns.length;j++){
-                    if (order[i].equals(tempAns[j].getColor())){
-                        if (i==j){
-                            if (tempAns[j].isSeen()){
-                                whites--;
-                            }
-                            reds++;
-                            tempAns[j]=new Shapes("empty");
-                        }else{
-                            if (!tempAns[j].isSeen()){
-                                whites++;
-                                tempAns[j] = new Shapes(tempAns[j].getColor());
-                                tempAns[j].see();
-                            }
+            order = scan.nextLine().split(",");
 
+            //FOR TESTING, make inputIDX == 4
+            //WARNING: DANGER OF AN INFINITE LOOP!!!!
+            if (inputIdx==4){//TODO: this is run when they submit it
+                check();
+            }
+        }
+    }
+
+    public void check(){
+        Shapes[] tempAns = answer.clone();
+        int whites = 0;
+        int reds = 0;
+        for (int i = 0; i<order.length;i++){
+            for (int j = 0;j<tempAns.length;j++){
+                if (order[i].equals(tempAns[j].getColor())){
+                    if (i==j){
+                        if (tempAns[j].isSeen()){
+                            whites--;
+                        }
+                        reds++;
+                        tempAns[j]=new Shapes("empty");
+                    }else{
+                        if (!tempAns[j].isSeen()){
+                            whites++;
+                            tempAns[j] = new Shapes(tempAns[j].getColor());
+                            tempAns[j].see();
                         }
 
                     }
-                }
-            }
-            tries--;
-            if (reds == 4){
-                win = true;
-            }
-            for (int i = 0;i<grid[0].length;i++){
-                if (i<4){
-                    grid[tries][i] = new Shapes(order[i]);
-                }else{
-                    if (reds>0){
-                        grid[tries][i] = new Shapes("#R");
-                        reds--;
-                    } else if (whites>0) {
-                        grid[tries][i] = new Shapes("#W");
-                        whites--;
-                    }else{
-                        grid[tries][i] = new Shapes("##");
-                    }
-                }
-            }
-            printGrid();
 
+                }
+            }
+        }
+        tries--;
+        if (reds == 4){
+            win = true;
+        }
+        for (int i = 4;i<grid[0].length;i++){
+            if (reds>0){
+                grid[tries][i] = new Shapes("#R");
+                reds--;
+            } else if (whites>0) {
+                grid[tries][i] = new Shapes("#W");
+                whites--;
+            }else{
+                grid[tries][i] = new Shapes("##");
+            }
 
         }
-
-
-
+        printGrid();
     }
 
     public void printGrid(){
