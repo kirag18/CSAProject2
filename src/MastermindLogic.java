@@ -34,19 +34,30 @@ public class MastermindLogic {
     public void play(){
         printGrid();
         while (tries >0 && !win){
+            Shapes[] tempAns = answer.clone();
 
             int whites = 0;
             int reds = 0;
             System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
             String[] order = scan.nextLine().split(",");
             for (int i = 0; i<order.length;i++){
-                for (int j = 0;j<answer.length;j++){
-                    if (order[i].equals(answer[j].getColor())){
+                for (int j = 0;j<tempAns.length;j++){
+                    if (order[i].equals(tempAns[j].getColor())){
                         if (i==j){
+                            if (tempAns[j].isSeen()){
+                                whites--;
+                            }
                             reds++;
+                            tempAns[j]=new Shapes("empty");
                         }else{
-                            whites++;
+                            if (!tempAns[j].isSeen()){
+                                whites++;
+                                tempAns[j] = new Shapes(tempAns[j].getColor());
+                                tempAns[j].see();
+                            }
+
                         }
+
                     }
                 }
             }
