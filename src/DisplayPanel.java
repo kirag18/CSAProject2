@@ -54,11 +54,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setFont(new Font("Arial", Font.BOLD, 60));
+        g.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
         g.setColor(Color.RED);
-        g.drawString(message, 150, 100);
+        g.drawString(message, 150, 250);
         play.setLocation(400, 400);
         play.setSize(200, 70);
+        play.setFont(new Font("Arial", Font.BOLD, 30));
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.drawString(rulesText,500,500);
@@ -66,6 +67,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         rules.setLocation(400, 480);
         rules.setSize(200, 70);
+        rules.setFont(new Font("Arial", Font.BOLD, 30));
 
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
