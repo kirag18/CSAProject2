@@ -1,7 +1,5 @@
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Color;
@@ -12,11 +10,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class DisplayPanel extends JPanel implements ActionListener {
-    private String message;
+    //private String message;
     private String rulesText;
     private JButton play;
     private JButton backToHome;
     private JButton rules;
+    private JLabel message;
+    private boolean pressedRule;
+    private boolean pressedPlay;
+    private boolean pressedBack;
+
     private JButton[] colors;
     private BufferedImage mastermind;
     private boolean PlayisClicked;
@@ -27,9 +30,14 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
     //TODO: Create a welcome panel and then have mastermind board show up when button pressed
     //TODO: Will add different button reactions and text visuals
+    //TODO: All buttons will be changed wtih different icons
 
 
     public DisplayPanel() {
+
+        message = new JLabel ("Welcome to Mastermind");
+        message.setVisible(true);
+        add(message);
         game = new MastermindLogic("Kira");
         colors = new JButton[8];
         options = new String[]{"red","green", "blue" , "yellow", "brown", "orange", "black", "white"};
@@ -39,7 +47,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
             add(colors[i]);
             colors[i].setVisible(false);
         }
-        message = ("Welcome to Mastermind!");
+        //message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
         rulesText = ("");
@@ -47,7 +55,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         play.addActionListener(this);
         add(play);
 
-        backToHome = new JButton("Back");
+        backToHome = new JButton("BACK");
         backToHome.addActionListener(this);
         add(backToHome);
         backToHome.setVisible(false);
@@ -63,14 +71,30 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules = new JButton("RULES");
         rules.addActionListener(this);
         add(rules);
+
+        pressedPlay = false;
+        pressedRule = false;
+        pressedBack = false;
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
-        g.setColor(Color.RED);
-        g.drawString(message, 150, 250);
+        message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
+        message.setLocation(150, 250);
+
+        if(pressedRule){
+            message.setText("Rules");
+            message.setLocation(450, 100);
+            pressedRule = false;
+        }
+
+        if(pressedBack){
+            message.setText("Welcome to Mastermind");
+            message.setLocation(150, 250);
+            pressedBack = false;
+        }
+
         play.setLocation(400, 400);
         play.setSize(200, 70);
         play.setFont(new Font("Arial", Font.BOLD, 30));
@@ -85,6 +109,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
+
+        backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
 
@@ -101,6 +127,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 }
             }
             if (casted == play) {
+                //message = "CLICKED!";
+                play.setVisible(false);
                 message = "Mastermind";
                 PlayisClicked = true;
                 rules.setVisible(false);
@@ -110,10 +138,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 }
                 game.play();
                 repaint();
+                pressedPlay = true;
 
             }
 
             if (casted == rules) {
+                pressedRule = true;
                 // update message to the entered text
 
                 message = "Rules";
@@ -126,7 +156,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
 
             if (casted == backToHome){
-                message = "Welcome";
+                pressedBack = true;
+                message.setText("Welcome to Mastermind");
                 rulesText = "";
                 rules.setVisible(true);
                 play.setVisible(true);
