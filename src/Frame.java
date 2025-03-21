@@ -1,11 +1,11 @@
 import javax.swing.JFrame;
 
-public class SampleFrame {
+public class Frame {
 
-    public SampleFrame() {
+    public Frame() {
         JFrame frame = new JFrame("Frame title");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(1000, 900); //KEEP WIDTH: 1000, HEIGHT: 900
         frame.setLocationRelativeTo(null);
         DisplayPanel panel = new DisplayPanel();
         frame.add(panel);

@@ -24,7 +24,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
     public DisplayPanel() {
         message = ("Welcome to Mastermind!");
-        play = new JButton("PLAY");
+        play = new JButton("PLAY"); //ability to put in png for icon
         //button = new JButton("Rules of the Game");
         play.addActionListener(this);
         add(play);
@@ -35,8 +35,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
             System.out.println(e.getMessage());
         }*/
 
-        textField = new JTextField(10);
-        add(textField);
+        /*textField = new JTextField(0);
+        add(textField);*/
 
         rules = new JButton("RULES");
         rules.addActionListener(this);
@@ -46,15 +46,19 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.setFont(new Font("Arial", Font.BOLD, 60));
         g.setColor(Color.RED);
-        g.drawString(message, 300, 100);
-        play.setLocation(300, 300);
+        g.drawString(message, 150, 100);
+        play.setLocation(400, 400);
+        play.setSize(200, 70);
+
         g.drawImage(mastermind, 200, 50, null);
         g.setColor(Color.BLACK);
         //g.drawString("goomba!", 200, 110);
         //textField.setLocation(50, 60);
-        rules.setLocation(300, 330);
+        rules.setLocation(400, 480);
+        rules.setSize(200, 70);
+
     }
 
     public void actionPerformed(ActionEvent e) {
