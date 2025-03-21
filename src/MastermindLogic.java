@@ -34,6 +34,9 @@ public class MastermindLogic {
         }
 
     }
+    public Shapes[][] getGrid(){
+        return grid;
+    }
     public void addInput(String color){
         order[inputIdx] = color;
         grid[tries][inputIdx] = new Shapes(order[inputIdx]);
@@ -47,8 +50,8 @@ public class MastermindLogic {
         printGrid();
         while (tries >0 && !win){
             inputIdx = 0;
-            System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
-            order = scan.nextLine().split(",");
+//            System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
+//            order = scan.nextLine().split(",");
 
             //FOR TESTING, make inputIDX == 4
             //WARNING: DANGER OF AN INFINITE LOOP!!!!

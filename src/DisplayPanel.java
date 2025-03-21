@@ -17,16 +17,31 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton play;
     private JButton backToHome;
     private JButton rules;
+    private JButton[] colors;
     private BufferedImage mastermind;
-    private JTextField textField;
+    private boolean PlayisClicked;
+    private String[] options;
+    private MastermindLogic game;
+
+
 
     //TODO: Create a welcome panel and then have mastermind board show up when button pressed
     //TODO: Will add different button reactions and text visuals
 
 
     public DisplayPanel() {
+        game = new MastermindLogic("Kira");
+        colors = new JButton[8];
+        options = new String[]{"red","green", "blue" , "yellow", "brown", "orange", "black", "white"};
+        for(int i = 0; i < options.length; i ++){
+            colors[i] = new JButton(options[i]);
+            colors[i].addActionListener(this);
+            add(colors[i]);
+            colors[i].setVisible(false);
+        }
         message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
+        PlayisClicked = false;
         rulesText = ("");
         //button = new JButton("Rules of the Game");
         play.addActionListener(this);
@@ -37,14 +52,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
         add(backToHome);
         backToHome.setVisible(false);
 
-       /* try {
+
+        try {
             mastermind = ImageIO.read(new File("src\\mastermind.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }*/
+        }
 
-        /*textField = new JTextField(0);
-        add(textField);*/
 
         rules = new JButton("RULES");
         rules.addActionListener(this);
@@ -63,7 +77,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.drawString(rulesText,500,500);
-        g.drawImage(mastermind, 200, 50, null);
+        if(PlayisClicked) {
+            g.drawImage(mastermind, 200, 50, null);
+        }
         g.setColor(Color.BLACK);
         rules.setLocation(400, 480);
         rules.setSize(200, 70);
@@ -77,13 +93,29 @@ public class DisplayPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
             JButton casted = (JButton) e.getSource();
+            for(int i = 0; i < colors.length; i ++){
+                if(casted == colors[i]){
+                    System.out.println(options[i]);
+                    game.addInput(options[i]);
+                    game.printGrid();
+                }
+            }
             if (casted == play) {
-                message = "CLICKED!";
+                message = "Mastermind";
+                PlayisClicked = true;
+                rules.setVisible(false);
+                play.setVisible(false);
+                for(int i = 0; i < colors.length; i ++){
+                    colors[i].setVisible(true);
+                }
+                game.play();
                 repaint();
+
             }
 
             if (casted == rules) {
                 // update message to the entered text
+
                 message = "Rules";
                 rulesText = "Hello Rules are here";
                 rules.setVisible(false);
