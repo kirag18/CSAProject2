@@ -15,6 +15,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton play;
     private JButton backToHome;
     private JButton rules;
+    private JButton submit;
     private JLabel message;
     private boolean pressedRule;
     private boolean pressedPlay;
@@ -72,6 +73,11 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.addActionListener(this);
         add(rules);
 
+        submit = new JButton("SUBMIT");
+        submit.addActionListener(this);
+        add(submit);
+        submit.setVisible(false);
+
         pressedPlay = false;
         pressedRule = false;
         pressedBack = false;
@@ -109,6 +115,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
+        submit.setLocation(400, 480);
+        submit.setSize(200, 70);
+        submit.setFont(new Font("Arial", Font.BOLD, 30));
+
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
@@ -126,19 +136,26 @@ public class DisplayPanel extends JPanel implements ActionListener {
                     game.printGrid();
                 }
             }
+            if (game.getInputIdx()==4 && casted == submit){
+                game.check();
+            }
+            if (game.isWin() || game.getTries()<0){
+                System.out.println("DONEE");//put something here(offer new game?)
+
+            }
             if (casted == play) {
                 //message = "CLICKED!";
                 play.setVisible(false);
-                message = "Mastermind";
                 PlayisClicked = true;
                 rules.setVisible(false);
                 play.setVisible(false);
                 for(int i = 0; i < colors.length; i ++){
                     colors[i].setVisible(true);
                 }
-                game.play();
-                repaint();
+                //game.play();
                 pressedPlay = true;
+                submit.setVisible(true);
+                repaint();
 
             }
 
@@ -146,7 +163,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 pressedRule = true;
                 // update message to the entered text
 
-                message = "Rules";
                 rulesText = "Hello Rules are here";
                 rules.setVisible(false);
                 play.setVisible(false);

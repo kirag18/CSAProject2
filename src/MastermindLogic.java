@@ -34,12 +34,25 @@ public class MastermindLogic {
         }
 
     }
+
+    public int getTries() {
+        return tries;
+    }
+    public boolean isWin(){
+        return win;
+    }
+
+    public int getInputIdx() {
+        return inputIdx;
+    }
+
     public Shapes[][] getGrid(){
         return grid;
     }
     public void addInput(String color){
         order[inputIdx] = color;
         grid[tries][inputIdx] = new Shapes(order[inputIdx]);
+        inputIdx++;
     }
     public void clearInput(){
         order = new String[4];
@@ -55,7 +68,7 @@ public class MastermindLogic {
 
             //FOR TESTING, make inputIDX == 4
             //WARNING: DANGER OF AN INFINITE LOOP!!!!
-            if (inputIdx==4){//TODO: this is run when they submit it
+            if (inputIdx==4){
                 check();
             }
         }
