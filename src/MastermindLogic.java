@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class MastermindLogic {
     private Shapes [][] grid;
     private Shapes [] answer;
-    private Scanner scan;
     private Player person;
     private int tries;
     private boolean win;
@@ -19,7 +18,6 @@ public class MastermindLogic {
         win = false;
 
         tries = 8;
-        scan = new Scanner(System.in);
         person = new Player(name);
         ArrayList<String> colors = new ArrayList<>();
         colors.add("red");
@@ -59,7 +57,7 @@ public class MastermindLogic {
         inputIdx = 0;
     }
 
-    public void play(){
+    public void play(){//useless
         printGrid();
         while (tries >0 && !win){
             inputIdx = 0;

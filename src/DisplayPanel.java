@@ -20,6 +20,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private boolean pressedRule;
     private boolean pressedPlay;
     private boolean pressedBack;
+    private int submitYLoc;
 
     private JButton[] colors;
     private BufferedImage mastermind;
@@ -81,6 +82,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         pressedPlay = false;
         pressedRule = false;
         pressedBack = false;
+
+        submitYLoc = 480;
     }
 
     @Override
@@ -115,7 +118,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
-        submit.setLocation(400, 480);
+        submit.setLocation(400, submitYLoc);
         submit.setSize(200, 70);
         submit.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -138,10 +141,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
             if (game.getInputIdx()==4 && casted == submit){
                 game.check();
+                game.clearInput();
+                submitYLoc-=40;
+
             }
             if (game.isWin() || game.getTries()<0){
                 System.out.println("DONEE");//put something here(offer new game?)
-
             }
             if (casted == play) {
                 //message = "CLICKED!";
