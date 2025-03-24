@@ -94,14 +94,20 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
         if(pressedRule){
             message.setText("Rules");
-            message.setLocation(450, 100);
+            message.setLocation(500, 100);
             pressedRule = false;
         }
 
         if(pressedBack){
             message.setText("Welcome to Mastermind");
-            message.setLocation(150, 250);
+            message.setLocation(150, 100);
             pressedBack = false;
+        }
+
+        if(pressedPlay){
+            message.setText("Welcome to Mastermind");
+            message.setLocation(145, 100);
+            g.drawImage(mastermind, 200, 200, null);
         }
 
         play.setLocation(400, 400);
@@ -110,15 +116,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.drawString(rulesText,500,500);
-        if(PlayisClicked) {
-            g.drawImage(mastermind, 200, 50, null);
-        }
         g.setColor(Color.BLACK);
         rules.setLocation(400, 480);
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
         submit.setLocation(400, submitYLoc);
+        submit.setLocation(550, 525);
         submit.setSize(200, 70);
         submit.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -168,7 +172,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 pressedRule = true;
                 // update message to the entered text
 
-                rulesText = "Hello Rules are here";
+                rulesText = "The opposing player tries to guess the code by placing different combinations of four pegs in each row and receiving feedback from the computer regarding how many of the pegs are in the correct position or the correct color.";
                 rules.setVisible(false);
                 play.setVisible(false);
                 backToHome.setVisible(true);
