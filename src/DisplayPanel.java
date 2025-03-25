@@ -16,7 +16,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton backToHome;
     private JButton rules;
     private JButton submit;
+    private JButton clear;
+    private JButton again;
     private JLabel message;
+
     private boolean pressedRule;
     private boolean pressedPlay;
     private boolean pressedBack;
@@ -79,6 +82,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
         add(submit);
         submit.setVisible(false);
 
+        clear = new JButton("CLEAR");
+        clear.addActionListener(this);
+        add(clear);
+        clear.setVisible(false);
+
+        again = new JButton("PLAY AGAIN");
+        again.addActionListener(this);
+        add(again);
+        again.setVisible(false);
+
         pressedPlay = false;
         pressedRule = false;
         pressedBack = false;
@@ -122,10 +135,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
         submit.setLocation(400, submitYLoc);
-        submit.setLocation(550, 525);
         submit.setSize(200, 70);
         submit.setFont(new Font("Arial", Font.BOLD, 30));
 
+        clear.setLocation(550, 525);
+        clear.setSize(200, 70);
+        clear.setFont(new Font("Arial", Font.BOLD, 30));
+
+        again.setLocation(550, 525);
+        again.setSize(300, 70);
+        again.setFont(new Font("Arial", Font.BOLD, 30));
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
@@ -137,7 +156,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         if (e.getSource() instanceof JButton) {
             JButton casted = (JButton) e.getSource();
             for(int i = 0; i < colors.length; i ++){
-                if(casted == colors[i]){
+                if(casted == colors[i]&&game.getInputIdx()<4){//Todo:print message when full already
                     System.out.println(options[i]);
                     game.addInput(options[i]);
                     game.printGrid();
@@ -145,13 +164,22 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
             if (game.getInputIdx()==4 && casted == submit){
                 game.check();
-                game.clearInput();
+                if(game.getTries()>0){
+                    game.clearInput();
+                }
+
+
                 submitYLoc-=40;
+                if (game.isWin() || game.getTries()<0){
+                    //Todo:print some win/loss messages
+                    System.out.println("DONEE");//put something here(offer new game?)
+                    again.setVisible(true);
+                }
+            } else if (casted==submit) {
+                System.out.println("You cant submit yet");//create a display message for this!!
 
             }
-            if (game.isWin() || game.getTries()<0){
-                System.out.println("DONEE");//put something here(offer new game?)
-            }
+
             if (casted == play) {
                 //message = "CLICKED!";
                 play.setVisible(false);
@@ -164,6 +192,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 //game.play();
                 pressedPlay = true;
                 submit.setVisible(true);
+                clear.setVisible(true);
                 repaint();
 
             }
@@ -189,6 +218,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 backToHome.setVisible(false);
                 repaint();
 
+            }
+
+            if (casted == clear){
+                game.clearInput();
             }
         }
     }

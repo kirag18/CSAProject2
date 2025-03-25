@@ -49,11 +49,12 @@ public class MastermindLogic {
     }
     public void addInput(String color){
         order[inputIdx] = color;
-        grid[tries][inputIdx] = new Shapes(order[inputIdx]);
+        grid[tries-1][inputIdx] = new Shapes(order[inputIdx]);
         inputIdx++;
     }
     public void clearInput(){
         order = new String[4];
+        grid[tries-1] = new Shapes[8];
         inputIdx = 0;
     }
 
