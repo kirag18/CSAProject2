@@ -142,13 +142,29 @@ public class DisplayPanel extends JPanel implements ActionListener {
         clear.setSize(200, 70);
         clear.setFont(new Font("Arial", Font.BOLD, 30));
 
-        again.setLocation(550, 525);
-        again.setSize(300, 70);
+        again.setLocation(0, 0);
+        again.setSize(500, 500);
         again.setFont(new Font("Arial", Font.BOLD, 30));
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
+
+//        g.setColor(Color.RED);
+//        g.fillOval(10, 20, 100, 100);
+
+        if (pressedPlay){
+            Shapes[][] format = game.getGrid();
+            for (int i = 0; i< format.length;i++){
+                for (int j = 0;j<format[0].length;j++){
+                    String currColor = format[i][j].getColor();//todo: make a dict of corresponding colors?
+                    //todo: do some math on printing coordinates
+
+                }
+            }
+        }
+
+
 
     }
 
@@ -201,6 +217,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 pressedRule = true;
                 // update message to the entered text
 
+                rulesText = "The opposing player tries to guess the code by placing different combinations of four pegs in each row and receiving feedback from the computer regarding how many of the pegs are in the correct position or the correct color.";
                 rules.setVisible(false);
                 play.setVisible(false);
                 backToHome.setVisible(true);

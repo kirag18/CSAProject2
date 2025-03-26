@@ -21,11 +21,13 @@ public class MastermindLogic {
         person = new Player(name);
         ArrayList<String> colors = new ArrayList<>();
         colors.add("red");
-        colors.add("orange");
-        colors.add("yellow");
         colors.add("green");
         colors.add("blue");
-        colors.add("pink");
+        colors.add("yellow");
+        colors.add("brown");
+        colors.add("orange");
+        colors.add("black");
+        colors.add("white");
         for (int i = 0; i<4;i++){
             int idx = (int)(Math.random()*(6-i));
             answer[i] = new Shapes(colors.remove(idx));
