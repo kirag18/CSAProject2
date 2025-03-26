@@ -41,7 +41,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     public DisplayPanel() {
 
         message = new JLabel ("Welcome to Mastermind");
-        message.setVisible(true);
+        message.setVisible(false);
         add(message);
         game = new MastermindLogic("Kira");
         colors = new JButton[8];
@@ -102,24 +102,24 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
-        message.setLocation(150, 250);
+      /*  message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
+        message.setLocation(150, 250);*/
 
         if(pressedRule){
-            message.setText("Rules");
-            message.setLocation(500, 100);
+           /* message.setText("Rules");
+            message.setLocation(500, 100);*/
             pressedRule = false;
         }
 
         if(pressedBack){
-            message.setText("Welcome to Mastermind");
-            message.setLocation(150, 100);
+            /*message.setText("Welcome to Mastermind");
+            message.setLocation(150, 100);*/
             pressedBack = false;
         }
 
         if(pressedPlay){
-            message.setText("Welcome to Mastermind");
-            message.setLocation(145, 100);
+           /* message.setText("Welcome to Mastermind");
+            message.setLocation(145, 100);*/
             g.drawImage(mastermind, 200, 200, null);
         }
 
@@ -201,7 +201,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 pressedRule = true;
                 // update message to the entered text
 
-                rulesText = "The opposing player tries to guess the code by placing different combinations of four pegs in each row and receiving feedback from the computer regarding how many of the pegs are in the correct position or the correct color.";
                 rules.setVisible(false);
                 play.setVisible(false);
                 backToHome.setVisible(true);
@@ -211,7 +210,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
             if (casted == backToHome){
                 pressedBack = true;
-                message.setText("Welcome to Mastermind");
+               // message.setText("Welcome to Mastermind");
                 rulesText = "";
                 rules.setVisible(true);
                 play.setVisible(true);
