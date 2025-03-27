@@ -24,7 +24,7 @@ public class MastermindLogic {
         colors.add("green");
         colors.add("blue");
         colors.add("yellow");
-        colors.add("brown");
+        colors.add("pink");
         colors.add("orange");
         colors.add("black");
         colors.add("white");

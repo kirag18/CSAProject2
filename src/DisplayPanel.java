@@ -30,6 +30,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private boolean PlayisClicked;
     private String[] options;
     private MastermindLogic game;
+    private Color[] colorObjs;
 
 
 
@@ -45,7 +46,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         add(message);
         game = new MastermindLogic("Kira");
         colors = new JButton[8];
-        options = new String[]{"red","green", "blue" , "yellow", "brown", "orange", "black", "white"};
+        colorObjs = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK, Color.ORANGE, Color.BLACK, Color.WHITE};
+        options = new String[]{"red","green", "blue" , "yellow", "pink", "orange", "black", "white"};
         for(int i = 0; i < options.length; i ++){
             colors[i] = new JButton(options[i]);
             colors[i].addActionListener(this);
@@ -157,7 +159,21 @@ public class DisplayPanel extends JPanel implements ActionListener {
             Shapes[][] format = game.getGrid();
             for (int i = 0; i< format.length;i++){
                 for (int j = 0;j<format[0].length;j++){
-                    String currColor = format[i][j].getColor();//todo: make a dict of corresponding colors?
+                    if (format[i][j]!=null){
+                        String currColor = format[i][j].getColor();
+                        int idx = 0;
+                        for (int k = 0;k<8;k++){
+                            if (currColor.equals(options[k])){
+                                idx = k;
+                                break;
+                            }
+                        }
+                        g.setColor(colorObjs[idx]);
+                        g.fillOval(331+35*j,330+40*i, 20, 20);
+                    }
+
+
+                    //todo: make a dict of corresponding colors?
                     //todo: do some math on printing coordinates
 
                 }
@@ -176,6 +192,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                     System.out.println(options[i]);
                     game.addInput(options[i]);
                     game.printGrid();
+                    repaint();
                 }
             }
             if (game.getInputIdx()==4 && casted == submit){
@@ -238,6 +255,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
             if (casted == clear){
                 game.clearInput();
+                repaint();
             }
         }
     }
