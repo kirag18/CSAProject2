@@ -49,10 +49,11 @@ public class DisplayPanel extends JPanel implements ActionListener {
         colorObjs = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK, Color.ORANGE, Color.BLACK, Color.WHITE};
         options = new String[]{"red","green", "blue" , "yellow", "pink", "orange", "black", "white"};
         for(int i = 0; i < options.length; i ++){
-            colors[i] = new JButton(options[i]);
+            colors[i] = new JButton("  ");//options[i]);
             colors[i].addActionListener(this);
             add(colors[i]);
             colors[i].setVisible(false);
+            colors[i].setBackground(colorObjs[i]);
         }
         //message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
@@ -98,7 +99,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         pressedRule = false;
         pressedBack = false;
 
-        submitYLoc = 480;
+        submitYLoc = 605;
     }
 
     @Override
@@ -136,9 +137,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
-        submit.setLocation(400, submitYLoc);
-        submit.setSize(200, 70);
-        submit.setFont(new Font("Arial", Font.BOLD, 30));
+        submit.setLocation(243, submitYLoc);
+        submit.setSize(80, 40);
+        submit.setFont(new Font("Arial", Font.BOLD, 12));
 
         clear.setLocation(550, 525);
         clear.setSize(200, 70);
@@ -158,7 +159,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         if (pressedPlay){
             Shapes[][] format = game.getGrid();
             for (int i = 0; i< format.length;i++){
-                for (int j = 0;j<format[0].length;j++){
+                for (int j = 0;j<4;j++){
                     if (format[i][j]!=null){
                         String currColor = format[i][j].getColor();
                         int idx = 0;
@@ -171,11 +172,22 @@ public class DisplayPanel extends JPanel implements ActionListener {
                         g.setColor(colorObjs[idx]);
                         g.fillOval(331+35*j,330+40*i, 20, 20);
                     }
-
-
-                    //todo: make a dict of corresponding colors?
-                    //todo: do some math on printing coordinates
-
+                }
+                for (int j = 4;j<format[0].length;j++){
+                    if (format[i][j]!=null){
+                        if (format[i][j].getColor().equals("#W")){
+                            g.setColor(Color.WHITE);
+                        }else {
+                            g.setColor(Color.RED);
+                        }
+                        int xLoc=420+12*j;
+                        int yLoc = 340 + 38*i;
+                        if (j>5){
+                            xLoc -=(j-4)*12;
+                            yLoc+=15;
+                        }
+                        g.fillOval(xLoc,yLoc, 8, 8);
+                    }
                 }
             }
         }
@@ -204,8 +216,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
                 submitYLoc-=40;
                 if (game.isWin() || game.getTries()<0){
-                    //Todo:print some win/loss messages
-                    System.out.println("DONEE");//put something here(offer new game?)
+
+                    //Todo:print some win/loss messages and save vals to player
                     again.setVisible(true);
                 }
             } else if (casted==submit) {
@@ -256,6 +268,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
             if (casted == clear){
                 game.clearInput();
                 repaint();
+            }
+            if (casted == again){
+                game.setup();
             }
         }
     }

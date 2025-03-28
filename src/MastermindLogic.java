@@ -11,6 +11,11 @@ public class MastermindLogic {
     private String[] order;
 
     public MastermindLogic(String name){
+        person = new Player(name);
+        setup();
+
+    }
+    public void setup(){
         inputIdx = 0;
         order = new String[4];
         grid = new Shapes[8][8];
@@ -18,7 +23,7 @@ public class MastermindLogic {
         win = false;
 
         tries = 8;
-        person = new Player(name);
+
         ArrayList<String> colors = new ArrayList<>();
         colors.add("red");
         colors.add("green");
@@ -32,7 +37,6 @@ public class MastermindLogic {
             int idx = (int)(Math.random()*(6-i));
             answer[i] = new Shapes(colors.remove(idx));
         }
-
     }
 
     public int getTries() {
@@ -111,9 +115,10 @@ public class MastermindLogic {
             } else if (whites>0) {
                 grid[tries][i] = new Shapes("#W");
                 whites--;
-            }else{
-                grid[tries][i] = new Shapes("##");
             }
+//            else{
+//                grid[tries][i] = new Shapes("##");
+//            }
 
         }
         printGrid();
@@ -136,4 +141,6 @@ public class MastermindLogic {
         }
         System.out.println();
     }
+
+
 }
