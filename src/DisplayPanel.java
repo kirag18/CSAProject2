@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class DisplayPanel extends JPanel implements ActionListener {
     //private String message;
@@ -19,6 +20,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton clear;
     private JButton again;
     private JLabel message;
+    //private Image homeBack;
+    private JLabel background;
+    private JFrame frame;
 
     private boolean pressedRule;
     private boolean pressedPlay;
@@ -27,6 +31,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
     private JButton[] colors;
     private BufferedImage mastermind;
+    private BufferedImage homeBack;
     private boolean PlayisClicked;
     private String[] options;
     private MastermindLogic game;
@@ -40,6 +45,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
 
     public DisplayPanel() {
+
 
         message = new JLabel ("Welcome to Mastermind");
         message.setVisible(false);
@@ -67,6 +73,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.addActionListener(this);
         add(backToHome);
         backToHome.setVisible(false);
+
+        try {
+            homeBack = ImageIO.read(new File("src\\HomeBackground3.png"));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
 
 
         try {
@@ -105,6 +118,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+
+
+        g.drawImage(homeBack, 0, 0, 800, 900 , null);
       /*  message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
         message.setLocation(150, 250);*/
 
@@ -126,14 +143,14 @@ public class DisplayPanel extends JPanel implements ActionListener {
             g.drawImage(mastermind, 200, 200, null);
         }
 
-        play.setLocation(400, 400);
+        play.setLocation(300, 350);
         play.setSize(200, 70);
         play.setFont(new Font("Arial", Font.BOLD, 30));
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.drawString(rulesText,500,500);
         g.setColor(Color.BLACK);
-        rules.setLocation(400, 480);
+        rules.setLocation(300, 435);
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
