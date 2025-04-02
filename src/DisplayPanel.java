@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DisplayPanel extends JPanel implements ActionListener {
@@ -24,6 +25,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JLabel background;
     private JFrame frame;
 
+
     private boolean pressedRule;
     private boolean pressedPlay;
     private boolean pressedBack;
@@ -35,6 +37,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private boolean PlayisClicked;
     private String[] options;
     private MastermindLogic game;
+    private Player person;
     private Color[] colorObjs;
 
 
@@ -50,7 +53,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         message = new JLabel ("Welcome to Mastermind");
         message.setVisible(false);
         add(message);
-        game = new MastermindLogic("Kira");
+        game = new MastermindLogic();
+        person = new Player();
         colors = new JButton[8];
         colorObjs = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK, Color.ORANGE, Color.BLACK, Color.WHITE};
         options = new String[]{"red","green", "blue" , "yellow", "pink", "orange", "black", "white"};
@@ -112,7 +116,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         pressedRule = false;
         pressedBack = false;
 
-        submitYLoc = 605;
+        submitYLoc = 577;
     }
 
     @Override
@@ -138,9 +142,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
 
         if(pressedPlay){
-           /* message.setText("Welcome to Mastermind");
-            message.setLocation(145, 100);*/
-            g.drawImage(mastermind, 200, 200, null);
+            g.setFont(new Font("Arial", Font.BOLD, 20));
+            g.setColor(Color.BLACK);
+            double[] stats = person.stats();
+            g.drawString("Games played: "+ person.getGamesPlayed(),550,30);
+            g.drawString("High Score: "+stats[0],550,60);
+            g.drawString("Average Score: "+stats[1],550,90);
+            g.drawString("Win percentage: "+stats[2]+"%",550,120);
+            g.drawString("Total points: "+ stats[3],550,150);
+
+            g.drawImage(mastermind, -20, 100, 900,700,null);
         }
 
         play.setLocation(300, 350);
@@ -154,7 +165,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         rules.setSize(200, 70);
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
-        submit.setLocation(243, submitYLoc);
+        submit.setLocation(268, submitYLoc);
         submit.setSize(80, 40);
         submit.setFont(new Font("Arial", Font.BOLD, 12));
 
@@ -170,8 +181,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
 
-//        g.setColor(Color.RED);
-//        g.fillOval(10, 20, 100, 100);
+
 
         if (pressedPlay){
             Shapes[][] format = game.getGrid();
@@ -187,7 +197,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                             }
                         }
                         g.setColor(colorObjs[idx]);
-                        g.fillOval(331+35*j,330+40*i, 20, 20);
+                        g.fillOval(356+36*j,209+42*i, 20, 20);
                     }
                 }
                 for (int j = 4;j<format[0].length;j++){
@@ -197,13 +207,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
                         }else {
                             g.setColor(Color.RED);
                         }
-                        int xLoc=420+12*j;
-                        int yLoc = 340 + 38*i;
+                        int xLoc=440+14*j;
+                        int yLoc = 203 + 42*i;
                         if (j>5){
-                            xLoc -=(j-4)*12;
-                            yLoc+=15;
+                            xLoc=440+14*(j-2);
+                            yLoc+=20;
                         }
-                        g.fillOval(xLoc,yLoc, 8, 8);
+                        g.fillOval(xLoc,yLoc, 10, 10);
                     }
                 }
             }
@@ -226,17 +236,20 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
             if (game.getInputIdx()==4 && casted == submit){
                 game.check();
+                System.out.println("TRIEs"+game.getTries());
                 if(game.getTries()>0){
                     game.clearInput();
                 }
 
 
-                submitYLoc-=40;
-                if (game.isWin() || game.getTries()<0){
+                submitYLoc-=42;
+                if (game.isWin() || game.getTries()<=0){
 
                     //Todo:print some win/loss messages and save vals to player
                     again.setVisible(true);
                 }
+
+                repaint();
             } else if (casted==submit) {
                 System.out.println("You cant submit yet");//create a display message for this!!
 
@@ -287,7 +300,18 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 repaint();
             }
             if (casted == again){
+                if (!game.isWin()){
+                    person.addScore(-1);
+                }else{
+                    person.addScore(game.getTries());
+                }
                 game.setup();
+                again.setVisible(false);
+                submitYLoc = 577;
+
+                System.out.println(game.getTries());
+
+                repaint();
             }
         }
     }

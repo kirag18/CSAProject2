@@ -1,28 +1,26 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class MastermindLogic {
     private Shapes [][] grid;
     private Shapes [] answer;
-    private Player person;
+
     private int tries;
     private boolean win;
     private int inputIdx;
     private String[] order;
 
-    public MastermindLogic(String name){
-        person = new Player(name);
+    public MastermindLogic(){
         setup();
 
     }
     public void setup(){
         inputIdx = 0;
         order = new String[4];
-        grid = new Shapes[8][8];
+        grid = new Shapes[10][8];
         answer = new Shapes[4];
         win = false;
 
-        tries = 8;
+        tries = 10;
 
         ArrayList<String> colors = new ArrayList<>();
         colors.add("red");
@@ -64,20 +62,7 @@ public class MastermindLogic {
         inputIdx = 0;
     }
 
-    public void play(){//useless
-        printGrid();
-        while (tries >0 && !win){
-            inputIdx = 0;
-//            System.out.println("Enter 4 UNIQUE colors ");//TODO: change this part when we do GUI
-//            order = scan.nextLine().split(",");
 
-            //FOR TESTING, make inputIDX == 4
-            //WARNING: DANGER OF AN INFINITE LOOP!!!!
-            if (inputIdx==4){
-                check();
-            }
-        }
-    }
 
     public void check(){
         Shapes[] tempAns = answer.clone();
@@ -116,14 +101,12 @@ public class MastermindLogic {
                 grid[tries][i] = new Shapes("#W");
                 whites--;
             }
-//            else{
-//                grid[tries][i] = new Shapes("##");
-//            }
-
         }
         printGrid();
     }
 
+
+    //method used for testing what should be visually displayed
     public void printGrid(){
         for (Shapes[] row : grid){
             for (Shapes space:row){
