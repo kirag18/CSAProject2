@@ -39,6 +39,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private MastermindLogic game;
     private Player person;
     private Color[] colorObjs;
+    private String WLMessage;
 
 
 
@@ -49,7 +50,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
     public DisplayPanel() {
 
-
+        WLMessage = "";
         message = new JLabel ("Welcome to Mastermind");
         message.setVisible(false);
         add(message);
@@ -111,6 +112,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         again.addActionListener(this);
         add(again);
         again.setVisible(false);
+        setComponentZOrder(again,0);
 
         pressedPlay = false;
         pressedRule = false;
@@ -122,6 +124,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
 
 
 
@@ -173,13 +176,18 @@ public class DisplayPanel extends JPanel implements ActionListener {
         clear.setSize(200, 70);
         clear.setFont(new Font("Arial", Font.BOLD, 30));
 
-        again.setLocation(0, 0);
-        again.setSize(500, 500);
+        again.setLocation(275, 300);
+        again.setSize(300, 100);
         again.setFont(new Font("Arial", Font.BOLD, 30));
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
+        int xVal = 240;
+        for (JButton c:colors){
+            c.setLocation(xVal,640);
+            xVal+=25;
+        }
 
 
 
@@ -218,6 +226,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 }
             }
         }
+        g.setFont(new Font("Arial", Font.BOLD, 50));
+        g.setColor(Color.BLACK);
+        g.drawString(WLMessage, 150,280);
 
 
 
@@ -244,6 +255,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
                 submitYLoc-=42;
                 if (game.isWin() || game.getTries()<=0){
+                    if (game.isWin()){
+                        WLMessage = "Congrats! You Won!!";
+                    }else{
+                        WLMessage = "Congrats! You lost!!";
+                    }
+                    repaint();
+
 
                     //Todo:print some win/loss messages and save vals to player
                     again.setVisible(true);
@@ -300,6 +318,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 repaint();
             }
             if (casted == again){
+                WLMessage = "";
                 if (!game.isWin()){
                     person.addScore(-1);
                 }else{
