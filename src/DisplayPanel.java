@@ -22,6 +22,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton again;
     private JLabel message;
     //private Image homeBack;
+    private Icon rulesButton;
     private JLabel background;
     private JFrame frame;
 
@@ -93,8 +94,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
             System.out.println(e.getMessage());
         }
 
+        ImageIcon rulesButton = new ImageIcon("src\\RULESButton.png");
+
 
         rules = new JButton("RULES");
+        rules.setIcon(rulesButton);
+        rules.setBorderPainted(false);
         rules.addActionListener(this);
         add(rules);
 
@@ -165,7 +170,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         g.drawString(rulesText,500,500);
         g.setColor(Color.BLACK);
         rules.setLocation(300, 435);
-        rules.setSize(200, 70);
+        rules.setSize(240, 90);
+
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
         submit.setLocation(268, submitYLoc);
