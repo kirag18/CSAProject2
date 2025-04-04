@@ -102,7 +102,6 @@ public class MastermindLogic {
                 whites--;
             }
         }
-        printGrid();
     }
 
 

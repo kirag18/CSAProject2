@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class DisplayPanel extends JPanel implements ActionListener {
-    //private String message;
-    private String rulesText;
     private JButton play;
     private JButton backToHome;
     private JButton rules;
@@ -53,31 +51,29 @@ public class DisplayPanel extends JPanel implements ActionListener {
     public DisplayPanel() {
 
         WLMessage = "";
-        message = new JLabel ("Welcome to Mastermind");
-        message.setVisible(false);
-        add(message);
         game = new MastermindLogic();
         person = new Player();
         colors = new JButton[8];
-        colorObjs = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.PINK, Color.ORANGE, Color.BLACK, Color.WHITE};
+        colorObjs = new Color[]{Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, new Color(139, 69, 19), Color.ORANGE, Color.BLACK, Color.WHITE};
         options = new String[]{"red","green", "blue" , "yellow", "pink", "orange", "black", "white"};
         for(int i = 0; i < options.length; i ++){
-            colors[i] = new JButton("  ");//options[i]);
+            colors[i] = new JButton("");//options[i]);
             colors[i].addActionListener(this);
             add(colors[i]);
             colors[i].setVisible(false);
             colors[i].setBackground(colorObjs[i]);
-        }
+            colors[i].setOpaque(false);
+            //colors[i].setContentAreaFilled(false);
 
+
+        }
         ImageIcon rulesButton = new ImageIcon("src\\RULESButton.png");
         ImageIcon submitButton = new ImageIcon("src\\SUBMITButton.png");
         ImageIcon playButton = new ImageIcon("src\\PLAYButton.png");
-   //     ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
+        //     ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
         //message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
-        rulesText = ("");
-        //button = new JButton("Rules of the Game");
         play.addActionListener(this);
         play.setIcon(playButton);
         add(play);
@@ -100,6 +96,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+
+
+
 
 
 
@@ -138,25 +138,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-
-
-
         g.drawImage(homeBack, 0, 0, 800, 900 , null);
-      /*  message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
-        message.setLocation(150, 250);*/
-
-      /*  if(pressedRule){
-           *//* message.setText("Rules");
-            message.setLocation(500, 100);*//*
-            pressedRule = false;
-        }
-
-        if(pressedBack){
-            *//*message.setText("Welcome to Mastermind");
-            message.setLocation(150, 100);*//*
-            pressedBack = false;
-        }*/
 
         if(pressedPlay){
             g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -170,7 +152,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
             g.drawImage(mastermind, -20, 100, 900,700,null);
         }
-
         play.setLocation(300, 350);
         play.setSize(250, 99);
         play.setFont(new Font("Arial", Font.BOLD, 30));
@@ -196,13 +177,14 @@ public class DisplayPanel extends JPanel implements ActionListener {
         clear.setSize(200, 70);
         clear.setFont(new Font("Arial", Font.BOLD, 30));
 
-        again.setLocation(275, 300);
+        again.setLocation(260, 50);
         again.setSize(300, 100);
         again.setFont(new Font("Arial", Font.BOLD, 30));
-        ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
+        backToHome.setSize(200,70);
+        int xVal = 262;
         backToHome.setSize(230,95);
         backToHome.setIcon(backButton);
         backToHome.setBorderPainted(false);
@@ -211,8 +193,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
         int xVal = 240;
         for (JButton c:colors){
-            c.setLocation(xVal,640);
-            xVal+=25;
+            c.setSize(30,30);
+            c.setLocation(xVal,637);
+            xVal+=34;
+
         }
 
 
@@ -254,7 +238,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
         g.setFont(new Font("Arial", Font.BOLD, 50));
         g.setColor(Color.BLACK);
-        g.drawString(WLMessage, 150,280);
+        g.drawString(WLMessage, 150,500);
 
 
 
@@ -264,16 +248,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
         if (e.getSource() instanceof JButton) {
             JButton casted = (JButton) e.getSource();
             for(int i = 0; i < colors.length; i ++){
-                if(casted == colors[i]&&game.getInputIdx()<4){//Todo:print message when full already
-                    System.out.println(options[i]);
+                if(casted == colors[i]&&game.getInputIdx()<4){
                     game.addInput(options[i]);
-                    game.printGrid();
                     repaint();
                 }
             }
             if (game.getInputIdx()==4 && casted == submit){
                 game.check();
-                System.out.println("TRIEs"+game.getTries());
                 if(game.getTries()>0){
                     game.clearInput();
                 }
@@ -287,20 +268,14 @@ public class DisplayPanel extends JPanel implements ActionListener {
                         WLMessage = "Congrats! You lost!!";
                     }
                     repaint();
-
-
-                    //Todo:print some win/loss messages and save vals to player
                     again.setVisible(true);
+                    submit.setVisible(false);
                 }
 
                 repaint();
-            } else if (casted==submit) {
-                System.out.println("You cant submit yet");//create a display message for this!!
-
             }
 
             if (casted == play) {
-                //message = "CLICKED!";
                 play.setVisible(false);
                 PlayisClicked = true;
                 rules.setVisible(false);
@@ -308,7 +283,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
                 for(int i = 0; i < colors.length; i ++){
                     colors[i].setVisible(true);
                 }
-                //game.play();
                 pressedPlay = true;
                 submit.setVisible(true);
                 clear.setVisible(true);
@@ -318,25 +292,18 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
             if (casted == rules) {
                 pressedRule = true;
-                // update message to the entered text
-
-                rulesText = "The opposing player tries to guess the code by placing different combinations of four pegs in each row and receiving feedback from the computer regarding how many of the pegs are in the correct position or the correct color.";
                 rules.setVisible(false);
                 play.setVisible(false);
                 backToHome.setVisible(true);
-
                 repaint();
             }
 
             if (casted == backToHome){
                 pressedBack = true;
-               // message.setText("Welcome to Mastermind");
-                rulesText = "";
                 rules.setVisible(true);
                 play.setVisible(true);
                 backToHome.setVisible(false);
                 repaint();
-
             }
 
             if (casted == clear){
@@ -351,10 +318,9 @@ public class DisplayPanel extends JPanel implements ActionListener {
                     person.addScore(game.getTries());
                 }
                 game.setup();
+                submit.setVisible(true);
                 again.setVisible(false);
                 submitYLoc = 577;
-
-                System.out.println(game.getTries());
 
                 repaint();
             }
