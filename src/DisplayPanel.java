@@ -41,13 +41,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private Color[] colorObjs;
     private String WLMessage;
 
-
-
-    //TODO: Create a welcome panel and then have mastermind board show up when button pressed
-    //TODO: Will add different button reactions and text visuals
-    //TODO: All buttons will be changed wtih different icons
-
-
     public DisplayPanel() {
 
         WLMessage = "";
@@ -67,10 +60,18 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
 
         }
-        ImageIcon rulesButton = new ImageIcon("src\\RULESButton.png");
-        ImageIcon submitButton = new ImageIcon("src\\SUBMITButton.png");
-        ImageIcon playButton = new ImageIcon("src\\PLAYButton.png");
-        //     ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
+
+        //TODO: Commented out the src// because it wasn't working on macboook. if src/ doesn't work uncomment
+
+        /*ImageIcon rulesButton = new ImageIcon("src//RULESButton.png");
+        ImageIcon submitButton = new ImageIcon("src//SUBMITButton.png");
+        ImageIcon playButton = new ImageIcon("src//PLAYButton.png");
+        ImageIcon backButton = new ImageIcon("src//BACKButton.png");*/
+
+        ImageIcon rulesButton = new ImageIcon("src/RULESButton.png");
+        ImageIcon submitButton = new ImageIcon("src/SUBMITButton.png");
+        ImageIcon playButton = new ImageIcon("src/PLAYButton.png");
+         ImageIcon backButton = new ImageIcon("src/BACKButton.png");
         //message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
@@ -84,7 +85,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.setVisible(false);
 
         try {
-            homeBack = ImageIO.read(new File("src\\HomeBackground3.png"));
+            homeBack = ImageIO.read(new File("src/HOMEBackground.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -92,15 +93,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
 
         try {
-            mastermind = ImageIO.read(new File("src\\mastermind.png"));
+            mastermind = ImageIO.read(new File("src/mastermind.png"));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-
-
-
-
+        System.out.println("Current dir: " + System.getProperty("user.dir"));
 
 
         rules = new JButton("RULES");
@@ -133,6 +131,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
         pressedBack = false;
 
         submitYLoc = 577;
+        File imgFile = new File("HOMEBackground.jpg");
+        if (!imgFile.exists()) {
+            System.out.println("Image file NOT FOUND at: " + imgFile.getAbsolutePath());
+        }
+        else if (!imgFile.canRead()) {
+                System.out.println("No READ perms for file at: " + imgFile.getAbsolutePath());
+            } else {
+                System.out.println("Loading valid image file from: " + imgFile.getAbsolutePath());
+            }
+
     }
 
     @Override
@@ -159,7 +167,6 @@ public class DisplayPanel extends JPanel implements ActionListener {
         play.setContentAreaFilled(false);
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
-        g.drawString(rulesText,500,500);
         g.setColor(Color.BLACK);
         rules.setLocation(300, 470);
         rules.setSize(230, 95);
@@ -191,7 +198,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.setMargin(new Insets(0, 0, 0, 0));
         //backToHome.setContentAreaFilled(false);
 
-        int xVal = 240;
+       // int xVal = 240;
         for (JButton c:colors){
             c.setSize(30,30);
             c.setLocation(xVal,637);
