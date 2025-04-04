@@ -1,8 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -22,7 +20,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton again;
     private JLabel message;
     //private Image homeBack;
+    private Icon playButton;
     private Icon rulesButton;
+    private Icon backButton;
+    private Icon submitButton;
     private JLabel background;
     private JFrame frame;
 
@@ -67,12 +68,18 @@ public class DisplayPanel extends JPanel implements ActionListener {
             colors[i].setVisible(false);
             colors[i].setBackground(colorObjs[i]);
         }
+
+        ImageIcon rulesButton = new ImageIcon("src\\RULESButton.png");
+        ImageIcon submitButton = new ImageIcon("src\\SUBMITButton.png");
+        ImageIcon playButton = new ImageIcon("src\\PLAYButton.png");
+   //     ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
         //message = ("Welcome to Mastermind!");
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
         rulesText = ("");
         //button = new JButton("Rules of the Game");
         play.addActionListener(this);
+        play.setIcon(playButton);
         add(play);
 
         backToHome = new JButton("BACK");
@@ -94,17 +101,19 @@ public class DisplayPanel extends JPanel implements ActionListener {
             System.out.println(e.getMessage());
         }
 
-        ImageIcon rulesButton = new ImageIcon("src\\RULESButton.png");
 
 
         rules = new JButton("RULES");
         rules.setIcon(rulesButton);
         rules.setBorderPainted(false);
+        rules.setBorder(null);
         rules.addActionListener(this);
         add(rules);
 
         submit = new JButton("SUBMIT");
         submit.addActionListener(this);
+        submit.setBorderPainted(false);
+        submit.setIcon(submitButton);
         add(submit);
         submit.setVisible(false);
 
@@ -137,17 +146,17 @@ public class DisplayPanel extends JPanel implements ActionListener {
       /*  message.setFont(new Font("Eras Bold ITC", Font.BOLD, 60));
         message.setLocation(150, 250);*/
 
-        if(pressedRule){
-           /* message.setText("Rules");
-            message.setLocation(500, 100);*/
+      /*  if(pressedRule){
+           *//* message.setText("Rules");
+            message.setLocation(500, 100);*//*
             pressedRule = false;
         }
 
         if(pressedBack){
-            /*message.setText("Welcome to Mastermind");
-            message.setLocation(150, 100);*/
+            *//*message.setText("Welcome to Mastermind");
+            message.setLocation(150, 100);*//*
             pressedBack = false;
-        }
+        }*/
 
         if(pressedPlay){
             g.setFont(new Font("Arial", Font.BOLD, 20));
@@ -163,14 +172,19 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
 
         play.setLocation(300, 350);
-        play.setSize(200, 70);
+        play.setSize(250, 99);
         play.setFont(new Font("Arial", Font.BOLD, 30));
+        play.setMargin(new Insets(0, 0, 0 ,0));
+        play.setContentAreaFilled(false);
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.drawString(rulesText,500,500);
         g.setColor(Color.BLACK);
-        rules.setLocation(300, 435);
-        rules.setSize(240, 90);
+        rules.setLocation(300, 470);
+        rules.setSize(230, 95);
+        rules.setMargin(new Insets(0, 0, 0, 0));
+        rules.setContentAreaFilled(false);
+
 
         rules.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -185,10 +199,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
         again.setLocation(275, 300);
         again.setSize(300, 100);
         again.setFont(new Font("Arial", Font.BOLD, 30));
+        ImageIcon backButton = new ImageIcon("src\\BACKButton.png");
 
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
-        backToHome.setSize(200,70);
+        backToHome.setSize(230,95);
+        backToHome.setIcon(backButton);
+        backToHome.setBorderPainted(false);
+        backToHome.setMargin(new Insets(0, 0, 0, 0));
+        //backToHome.setContentAreaFilled(false);
+
         int xVal = 240;
         for (JButton c:colors){
             c.setLocation(xVal,640);
