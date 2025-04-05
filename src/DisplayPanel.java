@@ -20,11 +20,11 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton clear;
     private JButton again;
     private JLabel message;
-    //private Image homeBack;
     private Icon playButton;
     private Icon rulesButton;
     private Icon backButton;
     private Icon submitButton;
+    private Icon clearButton;
     private JLabel background;
     private JFrame frame;
 
@@ -37,6 +37,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private JButton[] colors;
     private BufferedImage mastermind;
     private BufferedImage homeBack;
+    private BufferedImage rulesBack;
+    private BufferedImage playBack;
     private boolean PlayisClicked;
     private String[] options;
     private MastermindLogic game;
@@ -77,6 +79,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         ImageIcon rulesButton = new ImageIcon(Paths.get("src", "RULESButton.png").toString());
         ImageIcon submitButton = new ImageIcon(Paths.get("src", "SUBMITButton.png").toString());
         ImageIcon playButton = new ImageIcon(Paths.get("src", "PLAYButton.png").toString());
+        ImageIcon clearButton = new ImageIcon(Paths.get("src", "CLEARButton.png").toString());
         ImageIcon backButton = new ImageIcon(Paths.get("src", "BACKButton.png").toString());
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
@@ -85,6 +88,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         add(play);
 
         backToHome = new JButton("BACK");
+        backToHome.setIcon(backButton);
         backToHome.addActionListener(this);
         add(backToHome);
         backToHome.setVisible(false);
@@ -95,16 +99,25 @@ public class DisplayPanel extends JPanel implements ActionListener {
             System.out.println(e.getMessage());
         }
 
-
-
         try {
             mastermind = ImageIO.read(new File(Paths.get("src", "mastermind.png").toString()));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-        //System.out.println("Current dir: " + System.getProperty("user.dir"));
+        try{
+            rulesBack = ImageIO.read(new File("src/RULESBackground.png"));
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
 
+        try{
+            playBack = ImageIO.read(new File("src/PlAYBackground.png"));
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
+        //System.out.println("Current dir: " + System.getProperty("user.dir"));
 
         rules = new JButton("RULES");
         rules.setIcon(rulesButton);
@@ -122,6 +135,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
         clear = new JButton("CLEAR");
         clear.addActionListener(this);
+        clear.setIcon(clearButton);
         add(clear);
         clear.setVisible(false);
 
@@ -143,12 +157,21 @@ public class DisplayPanel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(homeBack, 0, 0, 800, 900 , null);
+        //g.drawImage(rulesBack, 0, 0,800, 900, null);
+         g.drawImage(homeBack, 0, 0, 800, 900 , null);
+
+        if(pressedRule){
+          //  g.drawImage(homeBack, 0, 0, 800, 900 , null);
+            g.drawImage(rulesBack, 0, 0, 800, 900 , null);
+            pressedRule = false;
+        }
+
 
         if(pressedPlay){
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.setColor(Color.BLACK);
             double[] stats = person.stats();
+            g.drawImage(playBack, 0, 0, 800, 900, null);
             g.drawString("Games played: "+ person.getGamesPlayed(),550,30);
             g.drawString("High Score: "+stats[0],550,60);
             g.drawString("Average Score: "+stats[1],550,90);
@@ -157,16 +180,22 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
             g.drawImage(mastermind, -20, 100, 900,700,null);
         }
-        play.setLocation(300, 350);
-        play.setSize(250, 99);
+
+        if(pressedBack){
+            g.drawImage(homeBack, 0, 0, 800, 900, null);
+            pressedBack = false;
+        }
+
+        play.setLocation(300, 330);
+        play.setSize(225, 93);
         play.setFont(new Font("Arial", Font.BOLD, 30));
         play.setMargin(new Insets(0, 0, 0 ,0));
         play.setContentAreaFilled(false);
         g.setFont(new Font("Arial", Font.BOLD, 20));
 
         g.setColor(Color.BLACK);
-        rules.setLocation(300, 470);
-        rules.setSize(230, 95);
+        rules.setLocation(300, 430);
+        rules.setSize(240, 95);
         rules.setMargin(new Insets(0, 0, 0, 0));
         rules.setContentAreaFilled(false);
 
@@ -177,8 +206,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
         submit.setSize(80, 40);
         submit.setFont(new Font("Arial", Font.BOLD, 12));
 
-        clear.setLocation(550, 525);
-        clear.setSize(200, 70);
+        clear.setLocation(560, 525);
+        clear.setSize(180, 70);
         clear.setFont(new Font("Arial", Font.BOLD, 30));
 
         again.setLocation(241, 50);
@@ -188,11 +217,10 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.setFont(new Font("Arial", Font.BOLD, 30));
         backToHome.setLocation(50,100);
         backToHome.setSize(200,70);
-        int xVal = 262;
+         int xVal = 262;
         backToHome.setSize(230,95);
-        backToHome.setIcon(backButton);
         backToHome.setBorderPainted(false);
-        backToHome.setMargin(new Insets(0, 0, 0, 0));
+        //  backToHome.setMargin(new Insets(0, 0, 0, 0));
         //backToHome.setContentAreaFilled(false);
 
        // int xVal = 240;
@@ -259,7 +287,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
         g.setFont(new Font("Arial", Font.BOLD, 50));
         g.setColor(Color.BLACK);
-        g.drawString(WLMessage, 150,700);
+        g.drawString(WLMessage, 150,720);
 
 
 
