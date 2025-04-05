@@ -37,6 +37,10 @@ public class MastermindLogic {
         }
     }
 
+    public Shapes[] getAnswer() {
+        return answer;
+    }
+
     public int getTries() {
         return tries;
     }

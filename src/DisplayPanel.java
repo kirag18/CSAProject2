@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class DisplayPanel extends JPanel implements ActionListener {
     private JButton play;
@@ -56,6 +59,8 @@ public class DisplayPanel extends JPanel implements ActionListener {
             colors[i].setVisible(false);
             colors[i].setBackground(colorObjs[i]);
             colors[i].setOpaque(false);
+            colors[i].setContentAreaFilled(false);
+            colors[i].setBorderPainted(false);
             //colors[i].setContentAreaFilled(false);
 
 
@@ -63,16 +68,16 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
         //TODO: Commented out the src// because it wasn't working on macboook. if src/ doesn't work uncomment
 
-        /*ImageIcon rulesButton = new ImageIcon("src//RULESButton.png");
-        ImageIcon submitButton = new ImageIcon("src//SUBMITButton.png");
-        ImageIcon playButton = new ImageIcon("src//PLAYButton.png");
-        ImageIcon backButton = new ImageIcon("src//BACKButton.png");*/
+//        ImageIcon rulesButton = new ImageIcon("src//RULESButton.png");
+//        ImageIcon submitButton = new ImageIcon("src//SUBMITButton.png");
+//        ImageIcon playButton = new ImageIcon("src//PLAYButton.png");
+//        ImageIcon backButton = new ImageIcon("src//BACKButton.png");
 
-        ImageIcon rulesButton = new ImageIcon("src/RULESButton.png");
-        ImageIcon submitButton = new ImageIcon("src/SUBMITButton.png");
-        ImageIcon playButton = new ImageIcon("src/PLAYButton.png");
-         ImageIcon backButton = new ImageIcon("src/BACKButton.png");
-        //message = ("Welcome to Mastermind!");
+        //ImageIcon rulesButton = new ImageIcon("src/RULESButton.png");
+        ImageIcon rulesButton = new ImageIcon(Paths.get("src", "RULESButton.png").toString());
+        ImageIcon submitButton = new ImageIcon(Paths.get("src", "SUBMITButton.png").toString());
+        ImageIcon playButton = new ImageIcon(Paths.get("src", "PLAYButton.png").toString());
+        ImageIcon backButton = new ImageIcon(Paths.get("src", "BACKButton.png").toString());
         play = new JButton("PLAY"); //ability to put in png for icon
         PlayisClicked = false;
         play.addActionListener(this);
@@ -85,7 +90,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         backToHome.setVisible(false);
 
         try {
-            homeBack = ImageIO.read(new File("src/HOMEBackground.png"));
+            homeBack = ImageIO.read(new File(Paths.get("src", "HOMEBackground.png").toString()));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -93,12 +98,12 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
 
         try {
-            mastermind = ImageIO.read(new File("src/mastermind.png"));
+            mastermind = ImageIO.read(new File(Paths.get("src", "mastermind.png").toString()));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Current dir: " + System.getProperty("user.dir"));
+        //System.out.println("Current dir: " + System.getProperty("user.dir"));
 
 
         rules = new JButton("RULES");
@@ -131,15 +136,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         pressedBack = false;
 
         submitYLoc = 577;
-        File imgFile = new File("HOMEBackground.jpg");
-        if (!imgFile.exists()) {
-            System.out.println("Image file NOT FOUND at: " + imgFile.getAbsolutePath());
-        }
-        else if (!imgFile.canRead()) {
-                System.out.println("No READ perms for file at: " + imgFile.getAbsolutePath());
-            } else {
-                System.out.println("Loading valid image file from: " + imgFile.getAbsolutePath());
-            }
+
 
     }
 
@@ -184,7 +181,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         clear.setSize(200, 70);
         clear.setFont(new Font("Arial", Font.BOLD, 30));
 
-        again.setLocation(260, 50);
+        again.setLocation(241, 50);
         again.setSize(300, 100);
         again.setFont(new Font("Arial", Font.BOLD, 30));
 
@@ -204,6 +201,23 @@ public class DisplayPanel extends JPanel implements ActionListener {
             c.setLocation(xVal,637);
             xVal+=34;
 
+        }
+
+        if (game.getTries()<=0){
+            Shapes[] reveal = game.getAnswer();
+
+            for (int i=0;i<4;i++){
+                String curr = reveal[i].getColor();
+                int idx=0;
+                for (int k = 0;k<8;k++){
+                    if (curr.equals(options[k])){
+                        idx = k;
+                        break;
+                    }
+                }
+                g.setColor(colorObjs[idx]);
+                g.fillOval(353+36*i,163, 25, 25);
+            }
         }
 
 
@@ -245,7 +259,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
         g.setFont(new Font("Arial", Font.BOLD, 50));
         g.setColor(Color.BLACK);
-        g.drawString(WLMessage, 150,500);
+        g.drawString(WLMessage, 150,700);
 
 
 
