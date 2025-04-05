@@ -39,6 +39,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
     private BufferedImage homeBack;
     private BufferedImage rulesBack;
     private BufferedImage playBack;
+    private BufferedImage bg;
     private boolean PlayisClicked;
     private String[] options;
     private MastermindLogic game;
@@ -95,6 +96,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
 
         try {
             homeBack = ImageIO.read(new File(Paths.get("src", "HOMEBackground.png").toString()));
+            bg = homeBack;
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -158,20 +160,19 @@ public class DisplayPanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         //g.drawImage(rulesBack, 0, 0,800, 900, null);
-         g.drawImage(homeBack, 0, 0, 800, 900 , null);
+        g.drawImage(bg, 0, 0, 800, 900 , null);
 
-        if(pressedRule){
-          //  g.drawImage(homeBack, 0, 0, 800, 900 , null);
-            g.drawImage(rulesBack, 0, 0, 800, 900 , null);
-            pressedRule = false;
-        }
-
+//        if(pressedRule){
+//          //  g.drawImage(homeBack, 0, 0, 800, 900 , null);
+//            g.drawImage(rulesBack, 0, 0, 800, 900 , null);
+//            pressedRule = false;
+//        }
 
         if(pressedPlay){
             g.setFont(new Font("Arial", Font.BOLD, 20));
             g.setColor(Color.BLACK);
             double[] stats = person.stats();
-            g.drawImage(playBack, 0, 0, 800, 900, null);
+            //g.drawImage(playBack, 0, 0, 800, 900, null);
             g.drawString("Games played: "+ person.getGamesPlayed(),550,30);
             g.drawString("High Score: "+stats[0],550,60);
             g.drawString("Average Score: "+stats[1],550,90);
@@ -325,6 +326,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
 
             if (casted == play) {
+                bg = playBack;
                 play.setVisible(false);
                 PlayisClicked = true;
                 rules.setVisible(false);
@@ -340,6 +342,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
 
             if (casted == rules) {
+                bg = rulesBack;
                 pressedRule = true;
                 rules.setVisible(false);
                 play.setVisible(false);
@@ -348,6 +351,7 @@ public class DisplayPanel extends JPanel implements ActionListener {
             }
 
             if (casted == backToHome){
+                bg = homeBack;
                 pressedBack = true;
                 rules.setVisible(true);
                 play.setVisible(true);
