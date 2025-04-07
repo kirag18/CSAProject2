@@ -108,13 +108,13 @@ public class DisplayPanel extends JPanel implements ActionListener {
         }
 
         try{
-            rulesBack = ImageIO.read(new File("src/RULESBackground.png"));
+            rulesBack = ImageIO.read(new File(Paths.get("src", "RULESBackground.png").toString()));
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
 
         try{
-            playBack = ImageIO.read(new File("src/PlAYBackground.png"));
+            playBack = ImageIO.read(new File(Paths.get("src", "PLAYBackground.png").toString()));
         } catch (IOException e){
             System.out.println(e.getMessage());
         }
